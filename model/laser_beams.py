@@ -7,7 +7,7 @@ This file represents the laser beams in the NL-eEDM laser cooling experiment.
 By Max Vos 19/02/2024
 """
 
-from model.molecules import CaF
+from src.model.molecules import CaF
 
 
 def get_laser_beams(

@@ -1,7 +1,7 @@
 import numpy as np
 import pylcp
 
-from model.molecules import Molecule
+from src.model.molecules import Molecule
 
 import scipy.constants as cts
 
