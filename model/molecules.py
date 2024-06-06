@@ -27,7 +27,8 @@ class Molecule:
                  frosch_b: float = 0.,
                  frosch_c: float = 0.,
                  sigma: float = 1 / 2,
-                 mass: float = 0
+                 mass: float = 0,
+                 wave_length: float = 860e-9
                  ):
         self.name = name
         """
@@ -88,6 +89,7 @@ class Molecule:
         """
         self.sigma = sigma
         self.mass = mass
+        self.wave_length = wave_length
 
     def get_name(self):
         return self.name
@@ -106,7 +108,8 @@ BaF = Molecule(
     # from: NL-eedm: Benchmarking of the Fock-space coupled-cluster ... (2022)
     frosch_a=26.55,
     name='BaF',
-    mass=156.3254 * ATOMIC_MASS_CONSTANT
+    mass=156.3254 * ATOMIC_MASS_CONSTANT,
+    wave_length=860e-9
 )
 
 CaF = Molecule(
@@ -121,7 +124,9 @@ CaF = Molecule(
     ground_c=40.1190,
     frosch_a=3 / 2 * 4.8,
     name='CaF',
-    mass=59.0764 * ATOMIC_MASS_CONSTANT
+    mass=59.0764 * ATOMIC_MASS_CONSTANT,
+    # from pylcp CaF MOT example
+    wave_length=606e-9
 )
 
 SrF = Molecule(

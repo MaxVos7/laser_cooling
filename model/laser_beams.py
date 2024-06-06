@@ -7,7 +7,7 @@ This file represents the laser beams in the NL-eEDM laser cooling experiment.
 By Max Vos 19/02/2024
 """
 
-WAVE_LENGTH = 860e-9
+from model.molecules import CaF
 
 
 def get_laser_beams(
@@ -15,39 +15,58 @@ def get_laser_beams(
         saturation: float,
         E_X: np.ndarray,
         E_A: np.ndarray,
-        ground_levels_to_target: list = [1, 2, 3, 4],
-        excited_levels_to_target: list = [0, 1]
+        transitions: list[dict],
 ) -> pylcp.laserBeams:
-    # Selects only some F states to target laser on.
-
     laserbeams = pylcp.laserBeams()
-    for freq in get_frequencies(ground_levels_to_target, excited_levels_to_target, E_X, E_A, detuning):
-        laserbeams += pylcp.laserBeams([
-            # x direction
-            {'kvec': np.array([1., 0., 0.]), 'pol': np.array([0., 0., 1.]), 'pol_coord': 'cartesian',
-             'delta': freq, 's': saturation},
-            {'kvec': np.array([-1., 0., 0.]), 'pol': np.array([0., 0., 1.]), 'pol_coord': 'cartesian',
-             'delta': freq, 's': saturation},
 
-            # y direction
-            {'kvec': np.array([0., 1., 0.]), 'pol': np.array([0., 0., 1.]), 'pol_coord': 'cartesian',
-             'delta': freq, 's': saturation},
-            {'kvec': np.array([0., -1., 0.]), 'pol': np.array([0., 0., 1.]), 'pol_coord': 'cartesian',
-             'delta': freq, 's': saturation},
-        ], beam_type=pylcp.infinitePlaneWaveBeam)
+    for i, freq in enumerate(get_frequencies(transitions, E_X, E_A, detuning)):
+        laserbeams += pylcp.laserBeams([
+            # X direction
+            # beam one
+            {'kvec': np.array([1., 0., 0.]), 'pol': np.array([0., 0., 1.]),
+             'pol_coord': 'cartesian',
+             'delta': freq, 's': saturation, 'wb': 10e-3},
+            # beam one
+            {'kvec': np.array([-1., 0., 0.]), 'pol': np.array([0., 0., 1.]),
+             'pol_coord': 'cartesian',
+             'delta': freq, 's': saturation, 'wb': 10e-3},
+
+            # Y direction
+            # beam one
+            {'kvec': np.array([0., 1., 0.]), 'pol': np.array([0., 0., 1.]),
+             'pol_coord': 'cartesian',
+             'delta': freq, 's': saturation, 'wb': 10e-3},
+            # beam one
+            {'kvec': np.array([0., -1., 0.]), 'pol': np.array([0., 0., 1.]),
+             'pol_coord': 'cartesian',
+             'delta': freq, 's': saturation, 'wb': 10e-3},
+        ], beam_type=pylcp.gaussianBeam)
+
     return laserbeams
 
 
 def get_frequencies(
-        ground_levels_to_target: list,
-        excited_levels_to_target: list,
+        transitions: list[dict],
         E_X: np.ndarray,
         E_A: np.ndarray,
         detuning: float
 ) -> np.ndarray:
     freqs = []
-    for ground in ground_levels_to_target:
-        for excited in excited_levels_to_target:
-            freqs.append(E_A[excited] - E_X[ground] + detuning)
+
+    # freqs = np.array([
+    #     -2.9,
+    #     24.15,
+    #     72.29,
+    #     146
+    # ])
+    #
+    # freqs /= CaF.line_width_in_MHz
+    # freqs += E_A[1] - E_X[3]
+    #
+    # return freqs
+
+    freqs = []
+    for i, transition in enumerate(transitions):
+        freqs.append(E_A[transition['excited']] - E_X[transition['ground']] + detuning)
 
     return freqs
