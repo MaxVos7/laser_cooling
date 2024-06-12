@@ -19,11 +19,11 @@ colors_detuning = {
     -2: colors[4],
 }
 
-saturations = np.arange(2, 15.5, .5)
-# detunings = [-.5, -1, -1.5, -2]
-detunings = [-.5, -1, -1.5]
-# mag_fields = [.5, 1, 1.5, 2, 2.5, 3]
-mag_fields = [1.5, 2, 2.5]
+saturations = np.arange(5, 20.5, .5)
+detunings = [-.5, -1, -1.5, -2]
+# detunings = [-.5, -1, -1.5]
+mag_fields = [.5, 1, 1.5, 2, 2.5, 3]
+# mag_fields = [1.5, 2, 2.5]
 
 areas = np.empty(saturations.shape)
 
@@ -33,17 +33,17 @@ height = 2.5
 fig, axs = plt.subplots(1, len(mag_fields), sharey=True, figsize=(width, height))
 
 interaction_time = 0.85
-start_velocity = 1
-end_velocity = .25
+start_velocity = 4.5
+end_velocity = 3.5
 velocities, y = load_forces('obe', detunings[0], saturations[0], BaF, velocity_in_y=False,
-                            additional_title='%.1f_%.0f' % (mag_fields[0], 45), directory='data_grid')
+                            additional_title='%.1f_%.0f' % (mag_fields[0], 45), directory='data_grid_special')
 
 for i, mag_field in enumerate(mag_fields):
     for j, detuning in enumerate(detunings):
         for k, saturation in enumerate(saturations):
             try:
                 x, y = load_forces('obe', detuning, saturation, BaF, velocity_in_y=False,
-                                   additional_title='%.1f_%.0f' % (mag_field, 45), directory='data_grid')
+                                   additional_title='%.1f_%.0f' % (mag_field, 45), directory='data_grid_special')
 
                 # areas[k] = - trapezoid(y[start:end], x[start:end])
                 # areas[k] = get_start_velocity(x, y, end_velocity, interaction_time)

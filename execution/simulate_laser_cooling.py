@@ -6,7 +6,7 @@ from typing import Union
 
 from src.model.helpers import velocity_from_si, velocity_to_si
 from src.model.molecules import BaF, CaF
-from save_and_load_forces import save_forces
+from src.execution.save_and_load_forces import save_forces
 
 from src.model.molecules import Molecule, BaF
 from src.model.hamiltonian import get_hamiltonian
@@ -78,10 +78,6 @@ def simulate(saturation, detuning):
     omega = 2*np.pi*(cts.c/molecule.wave_length)
     Isat = cts.hbar*omega**3*(2*np.pi*molecule.line_width_in_MHz*1e6)/(12*np.pi*cts.c**2)
 
-    print(Isat / 10)
-
-    print(velocity_to_si(np.array([1]),molecule))
-
     transitions = [
         {'ground': 3, 'excited': 1},  # F = 2 -> F' = 1
         {'ground': 2, 'excited': 0},  # F = 1+ -> F' = 0
@@ -98,6 +94,6 @@ def simulate(saturation, detuning):
 
 # start_time = time.time()
 #
-simulate(1.2, -1)
+# simulate(1.2, -1)
 #
 # print('it took %d seconds' % (time.time() - start_time))

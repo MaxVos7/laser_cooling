@@ -15,9 +15,9 @@ import numpy as np
 
 molecules = [CaF, BaF]
 
-saturations = [2, 5, 10]
-detunings = [-.5, -1, -1.5]
-mag_fields = [0.5, 1.5]
+saturations = [5,10,19]
+detunings = [-.5, -1.5,-2]
+mag_fields = [1.5,2,2.5]
 molecule = BaF
 
 omega = 2 * np.pi * (cts.c / molecule.wave_length)
@@ -58,7 +58,7 @@ for j, mag_field in enumerate(mag_fields):
             if i == 0:
                 axs[i][j].set_ylabel(r'$\delta$ = %.1f $\Gamma$' % detunings[i], fontsize=12)
             else:
-                axs[i][j].set_ylabel(r'$\delta$ = %.0f $\Gamma$' % detunings[i], fontsize=12)
+                axs[i][j].set_ylabel(r'$\delta$ = %.1f $\Gamma$' % detunings[i], fontsize=12)
             axs[i][j].yaxis.set_label_position("right")
             axs[i][j].yaxis.tick_right()
 
@@ -68,11 +68,10 @@ for j, mag_field in enumerate(mag_fields):
 #              va='center', ha='left', rotation=90, transform=fig.transFigure)
 
 
-# axs[0][0].set_title('B = %.1f G' % mag_fields[0])
-# axs[0][1].set_title('B = %.1f G' % mag_fields[1])
-# axs[0][2].set_title('B = %.0f G' % mag_fields[2])
+axs[0][0].set_title('B = %.1f G' % mag_fields[0])
+axs[0][1].set_title('B = %.1f G' % mag_fields[1])
+axs[0][2].set_title('B = %.0f G' % mag_fields[2])
 
-plt.legend(loc='lower center', bbox_to_anchor=(-0.7, -.75),
-           fancybox=True, shadow=True, ncol=4)
-
-plt.show()
+plt.legend(loc='lower center', bbox_to_anchor=(-0.7, -1),
+           fancybox=True, shadow=True, ncol=3)
+plt.savefig('figures/force_curves_alternative', bbox_inches='tight', pad_inches=0.1)

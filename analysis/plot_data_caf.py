@@ -1,6 +1,8 @@
 import matplotlib
 import matplotlib.pyplot as plt
 
+
+
 matplotlib.use('TkAgg')
 
 from src.model.molecules import CaF, BaF
